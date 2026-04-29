@@ -1,5 +1,6 @@
 # Enterprise-Agentic-Career-Copilot
 
+ Scope is Build AI Interview Portfolio Agent — a real-world agentic system that helps candidates tailor resumes, generate interview prep, analyze job descriptions, and track applications. So i  built a modular multi-project .NET 8 AI-agent architecture with clean separation across Domain, Application, Infrastructure, Agents, and API layers. Its in progress
 - Key features 
 
 
