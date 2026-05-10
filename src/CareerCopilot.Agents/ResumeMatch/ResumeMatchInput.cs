@@ -1,6 +1,6 @@
 using CareerCopilot.Domain.Models;
 
-namespace CareerCopilot.Agents.ResumeMatch;
+namespace CareerCopilot.Agents;
 
 public sealed class ResumeMatchInput
 {

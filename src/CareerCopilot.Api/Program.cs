@@ -1,17 +1,22 @@
 using CareerCopilot.Agents;
-using CareerCopilot.Agents.ResumeMatch;
 using CareerCopilot.Application.Abstractions;
+using CareerCopilot.Application.UseCases.AnalyzeCareerFit;
 using CareerCopilot.Domain.Models;
 using CareerCopilot.Infrastructure.Ai;
+using CareerCopilot.Agents.Orchestration;
+
+;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<IAiProvider, FakeAiProvider>();
+//builder.Services.AddSingleton<IAiProvider, FakeAiProvider>();
+builder.Services.AddSingleton<IAiProvider, OpenAiProvider>();
 builder.Services.AddScoped<IAgent<JobDescriptionAnalyzerInput, JobDescriptionAnalysis>, JobDescriptionAnalyzerAgent>();
 builder.Services.AddScoped<IAgent<ResumeMatchInput, ResumeMatchResult>,ResumeMatchAgent>();
+builder.Services.AddScoped<CareerFitOrchestrator>();
 
 var app = builder.Build();
 
@@ -41,6 +46,18 @@ app.MapPost("/api/agents/resume-match",
     })
     .WithName("ResumeMatch")
     .WithOpenApi();
+
+app.MapPost("/api/agents/analyze-career-fit",
+    async (
+        CareerFitRequest request,
+        CareerFitOrchestrator orchestrator,
+        CancellationToken cancellationToken) =>
+    {
+        var result = await orchestrator.AnalyzeAsync(request, cancellationToken);
+        return Results.Ok(result);
+    })
+.WithName("AnalyzeCareerFit")
+.WithOpenApi();
 
 
 app.Run();
