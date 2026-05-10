@@ -1,0 +1,13 @@
+# macOS
+.DS_Store
+
+# .NET build output
+**/bin/
+**/obj/
+
+# Rider / VS / VS Code user files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
